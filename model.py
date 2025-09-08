@@ -35,7 +35,14 @@ class Batch:
         self._allocations.discard(line)
 
     def __lt__(self, other):
-        return self.eta is None or other.eta and self.eta < other.eta
+        if isinstance(other, self.__class__):
+            return self.eta is None or other.eta and self.eta < other.eta
+        return NotImplemented
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.ref == other.ref
+        return NotImplemented
 
 
 def allocate(line: OrderLine, batches: Iterable[Batch]) -> str:
