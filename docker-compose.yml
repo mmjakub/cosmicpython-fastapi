@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRES_HOST=postgres
+    ports:
+      - "80:8000"
+    volumes:
+      - .:/code
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

@@ -1,0 +1,8 @@
+FROM python:latest
+
+COPY requirements.txt /tmp
+RUN pip install -r /tmp/requirements.txt
+
+WORKDIR /code
+
+CMD ["fastapi", "dev", "--host", "0.0.0.0", "app.py"]

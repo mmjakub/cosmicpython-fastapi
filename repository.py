@@ -16,6 +16,10 @@ class BaseRepository(ABC):
     def get(self, ref: str) -> Batch:
         raise NotImplementedError
 
+    @abstractmethod
+    def get_all(self) -> list[Batch]:
+        raise NotImplementedError
+
 
 class SARepository(BaseRepository):
 
@@ -30,6 +34,9 @@ class SARepository(BaseRepository):
             return self.session.scalars(select(Batch).where(Batch.ref == ref)).one()
         except NoResultFound:
             raise BatchNotFound(f"No Batch with ref={ref}")
+
+    def get_all(self) -> list[Batch]:
+        return self.session.scalars(select(Batch)).all()
 
 
 class BatchNotFound(Exception):
