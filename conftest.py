@@ -5,6 +5,7 @@ from sqlalchemy import create_engine, CursorResult, text
 from sqlalchemy.orm import sessionmaker
 
 from orm import mapper_registry
+from repository import SARepository
 
 
 @pytest.fixture()
@@ -31,3 +32,8 @@ def run_sql(session) -> Callable[[str], CursorResult]:
         return session.execute(text(stmt))
 
     return f
+
+
+@pytest.fixture()
+def repo(session):
+    return SARepository(session)
